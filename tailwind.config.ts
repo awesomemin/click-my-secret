@@ -12,6 +12,7 @@ export default {
         background: '#181A20',
         primary: '#379392',
         gray: '#777777',
+        lightGray: '#35383f',
       },
     },
   },

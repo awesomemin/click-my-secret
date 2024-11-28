@@ -1,4 +1,5 @@
 import { MdPerson, MdLock, MdTagFaces } from 'react-icons/md';
+import Link from 'next/link';
 
 export default function SignUp() {
   return (
@@ -32,7 +33,9 @@ export default function SignUp() {
           </button>
         </form>
         <div className="flex-grow"></div>
-        <button className="text-gray text-sm mb-20">이미 회원인가요?</button>
+        <Link href="/login" className="text-center text-gray text-sm mb-20">
+          이미 회원인가요?
+        </Link>
       </div>
     </>
   );

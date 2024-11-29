@@ -49,7 +49,7 @@ export default function Login() {
         </Form>
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center text-red-500">
-            {loginResult?.success ? loginResult?.message : loginResult?.message}
+            {loginResult?.success ? '' : loginResult?.message}
           </div>
         </div>
         <Link href="/signup" className="text-center text-gray text-sm mb-20">

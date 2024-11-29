@@ -17,6 +17,7 @@ model User {
   id Int @id @default(autoincrement())
   loginId String @unique
   password String
+  nickname String @unique
   createdAt DateTime @default(now())
   secret Secret?
   clicks Click[]

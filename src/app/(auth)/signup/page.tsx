@@ -4,14 +4,23 @@ import { MdPerson, MdLock, MdTagFaces } from 'react-icons/md';
 import Link from 'next/link';
 import Form from 'next/form';
 import { signUp } from '../actions';
-import { useActionState, useState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import Spinner from '@/components/spinner';
+import { useRouter } from 'next/navigation';
 
 export default function SignUp() {
+  const router = useRouter();
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
   const [nickname, setNickname] = useState('');
-  let [signUpResult, formAction, isPending] = useActionState(signUp, null);
+  let [actionResult, formAction, isPending] = useActionState(signUp, {});
+
+  useEffect(() => {
+    if ('jwtToken' in actionResult && actionResult.jwtToken) {
+      localStorage.setItem('jwtToken', actionResult.jwtToken);
+      router.push('/');
+    }
+  }, [actionResult]);
 
   return (
     <>
@@ -24,19 +33,31 @@ export default function SignUp() {
         <Form action={formAction} className="mt-[55px]">
           <label
             className={`text-sm font-semibold  ml-2 ${
-              signUpResult?.idErrMsg ? 'text-red-500' : 'text-gray'
+              actionResult &&
+              'idErrMsg' in actionResult &&
+              actionResult?.idErrMsg
+                ? 'text-red-500'
+                : 'text-gray'
             }`}
           >
             ID
           </label>
           <div
             className={`flex items-center w-full h-[60px] border  rounded-2xl bg-background mt-2 ${
-              signUpResult?.idErrMsg ? 'border-red-500' : 'border-lightGray'
+              actionResult &&
+              'idErrMsg' in actionResult &&
+              actionResult?.idErrMsg
+                ? 'border-red-500'
+                : 'border-lightGray'
             }`}
           >
             <MdPerson
               className={`ml-[18px]  w-6 h-6 ${
-                signUpResult?.idErrMsg ? 'text-red-500' : 'text-lightGray'
+                actionResult &&
+                'idErrMsg' in actionResult &&
+                actionResult?.idErrMsg
+                  ? 'text-red-500'
+                  : 'text-lightGray'
               }`}
             />
             <input
@@ -47,23 +68,35 @@ export default function SignUp() {
             ></input>
           </div>
           <p className="text-xs  mb-6 text-red-500 text-right">
-            {signUpResult?.idErrMsg}
+            {'idErrMsg' in actionResult && actionResult?.idErrMsg}
           </p>
           <label
             className={`text-sm font-semibold ml-2 ${
-              signUpResult?.pwErrMsg ? 'text-red-500' : 'text-gray'
+              actionResult &&
+              'pwErrMsg' in actionResult &&
+              actionResult?.pwErrMsg
+                ? 'text-red-500'
+                : 'text-gray'
             }`}
           >
             비밀번호
           </label>
           <div
             className={`flex items-center w-full h-[60px] border rounded-2xl bg-background mt-2 ${
-              signUpResult?.pwErrMsg ? 'border-red-500' : 'border-lightGray'
+              actionResult &&
+              'pwErrMsg' in actionResult &&
+              actionResult?.pwErrMsg
+                ? 'border-red-500'
+                : 'border-lightGray'
             }`}
           >
             <MdLock
               className={`ml-[18px] w-6 h-6 ${
-                signUpResult?.pwErrMsg ? 'text-red-500' : 'text-lightGray'
+                actionResult &&
+                'pwErrMsg' in actionResult &&
+                actionResult?.pwErrMsg
+                  ? 'text-red-500'
+                  : 'text-lightGray'
               }`}
             />
             <input
@@ -75,25 +108,35 @@ export default function SignUp() {
             ></input>
           </div>
           <p className="text-xs  mb-6 text-red-500 text-right">
-            {signUpResult?.pwErrMsg}
+            {'pwErrMsg' in actionResult && actionResult?.pwErrMsg}
           </p>
           <label
             className={`text-sm font-semibold ml-2 ${
-              signUpResult?.nicknameErrMsg ? 'text-red-500' : 'text-gray'
+              actionResult &&
+              'nicknameErrMsg' in actionResult &&
+              actionResult?.nicknameErrMsg
+                ? 'text-red-500'
+                : 'text-gray'
             }`}
           >
             닉네임
           </label>
           <div
             className={`flex items-center w-full h-[60px] border rounded-2xl bg-background mt-2 ${
-              signUpResult?.nicknameErrMsg
+              actionResult &&
+              'nicknameErrMsg' in actionResult &&
+              actionResult?.nicknameErrMsg
                 ? 'border-red-500'
                 : 'border-lightGray'
             }`}
           >
             <MdTagFaces
               className={`ml-[18px] w-6 h-6 ${
-                signUpResult?.nicknameErrMsg ? 'text-red-500' : 'text-lightGray'
+                actionResult &&
+                'nicknameErrMsg' in actionResult &&
+                actionResult?.nicknameErrMsg
+                  ? 'text-red-500'
+                  : 'text-lightGray'
               }`}
             />
             <input
@@ -104,7 +147,7 @@ export default function SignUp() {
             ></input>
           </div>
           <p className="text-xs text-red-500 text-right">
-            {signUpResult?.nicknameErrMsg}
+            {'nicknameErrMsg' in actionResult && actionResult?.nicknameErrMsg}
           </p>
           <button
             type="submit"

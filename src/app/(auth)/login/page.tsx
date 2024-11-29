@@ -4,13 +4,21 @@ import { MdPerson, MdLock } from 'react-icons/md';
 import Link from 'next/link';
 import Form from 'next/form';
 import { login } from '../actions';
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Spinner from '@/components/spinner';
 
 export default function Login() {
   const router = useRouter();
-  const [loginResult, formAction, isPending] = useActionState(login, null);
+  const [loginResult, formAction, isPending] = useActionState(login, {
+    success: true,
+  });
+  useEffect(() => {
+    if ('jwtToken' in loginResult && loginResult.jwtToken) {
+      localStorage.setItem('jwtToken', loginResult.jwtToken);
+      router.push('/');
+    }
+  }, [loginResult]);
   return (
     <>
       <div className="flex flex-col h-screen">

@@ -9,7 +9,7 @@ const SECRET_KEY = process.env.JWT_SECRET;
 export async function signUp(
   currentState: any,
   formData: FormData
-): Promise<signUpResult | loginResult | void> {
+): Promise<signUpResult | loginResult> {
   const id = formData.get('id')?.toString().trim();
   const pw = formData.get('pw')?.toString().trim();
   const nickname = formData.get('nickname')?.toString().trim();

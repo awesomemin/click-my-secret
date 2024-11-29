@@ -1,8 +1,10 @@
 'use server';
 
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 //import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+
+const prisma = new PrismaClient();
 
 const SECRET_KEY = process.env.JWT_SECRET;
 
@@ -53,8 +55,6 @@ export async function signUp(currentState: any, formData: FormData) {
   )
     return actionResult;
 
-  const prisma = new PrismaClient();
-
   const hashedPw = await hashPassword(pw);
 
   try {
@@ -78,6 +78,30 @@ export async function signUp(currentState: any, formData: FormData) {
   }
 
   return actionResult;
+}
+
+export async function login(currentState: any, formData: FormData) {
+  const id = formData.get('id')?.toString().trim();
+  const pw = formData.get('pw')?.toString().trim();
+  if (!id || !pw) {
+    return { message: 'ID와 비밀번호를 입력해주세요.' };
+  }
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        loginId: id,
+      },
+    });
+    if (!user) {
+      throw new Error('ID 또는 비밀번호가 잘못되었습니다.');
+    }
+    if (!(await isPasswordValid(pw, user.password))) {
+      throw new Error('ID 또는 비밀번호가 잘못되었습니다.');
+    }
+    console.log(user);
+  } catch (error) {
+    console.error('그런 유저 없어요.', error);
+  }
 }
 
 function isValidId(id: string): boolean {
@@ -104,4 +128,11 @@ async function hashPassword(plainPw: string): Promise<string> {
     console.error('비밀번호 해싱 도중 에러가 발생했습니다.', error);
     throw new Error(error.message);
   }
+}
+
+async function isPasswordValid(
+  plainPw: string,
+  hashedPw: string
+): Promise<boolean> {
+  return await bcrypt.compare(plainPw, hashedPw);
 }

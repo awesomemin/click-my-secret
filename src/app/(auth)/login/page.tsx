@@ -19,22 +19,22 @@ export default function Login() {
         <h1 className="mt-[60px] text-2xl font-semibold text-center">로그인</h1>
         <Form action={formAction} className="mt-[55px]">
           <label className="text-sm font-semibold text-gray ml-2">ID</label>
-          <div className="flex items-center w-full h-[60px] border border-lightGray rounded-2xl bg-background mb-6 mt-2">
+          <div className="flex items-center w-full h-[60px] border border-lightGray rounded-2xl bg-inputBg mb-6 mt-2">
             <MdPerson className="ml-[18px] text-lightGray w-6 h-6" />
             <input
               name="id"
-              className="w-full mx-3 bg-background outline-none"
+              className="w-full mx-3 bg-inputBg outline-none"
             ></input>
           </div>
           <label className="text-sm font-semibold text-gray ml-2">
             비밀번호
           </label>
-          <div className="flex items-center w-full h-[60px] border border-lightGray rounded-2xl bg-background mt-2">
+          <div className="flex items-center w-full h-[60px] border border-lightGray rounded-2xl bg-inputBg mt-2">
             <MdLock className="ml-[18px] text-lightGray w-6 h-6" />
             <input
               type="password"
               name="pw"
-              className="w-full mx-3 bg-background outline-none"
+              className="w-full mx-3 bg-inputBg outline-none"
             ></input>
           </div>
           <button className=" w-full h-16 bg-primary rounded-2xl text-lg font-semibold mt-10">

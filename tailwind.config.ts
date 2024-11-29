@@ -13,6 +13,7 @@ export default {
         primary: '#379392',
         gray: '#777777',
         lightGray: '#35383f',
+        inputBg: '#1f222a',
       },
     },
   },

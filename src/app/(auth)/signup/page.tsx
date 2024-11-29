@@ -36,7 +36,7 @@ export default function SignUp() {
             ID
           </label>
           <div
-            className={`flex items-center w-full h-[60px] border  rounded-2xl bg-background mt-2 ${
+            className={`flex items-center w-full h-[60px] border  rounded-2xl bg-inputBg mt-2 ${
               actionResult &&
               'idErrMsg' in actionResult &&
               actionResult?.idErrMsg
@@ -56,7 +56,7 @@ export default function SignUp() {
             <input
               value={id}
               onChange={(e) => setId(e.target.value)}
-              className="w-full mx-3 bg-background outline-none"
+              className="w-full mx-3 bg-inputBg outline-none"
               name="id"
             ></input>
           </div>
@@ -75,7 +75,7 @@ export default function SignUp() {
             비밀번호
           </label>
           <div
-            className={`flex items-center w-full h-[60px] border rounded-2xl bg-background mt-2 ${
+            className={`flex items-center w-full h-[60px] border rounded-2xl bg-inputBg mt-2 ${
               actionResult &&
               'pwErrMsg' in actionResult &&
               actionResult?.pwErrMsg
@@ -96,7 +96,7 @@ export default function SignUp() {
               value={pw}
               onChange={(e) => setPw(e.target.value)}
               type="password"
-              className="w-full mx-3 bg-background outline-none"
+              className="w-full mx-3 bg-inputBg outline-none"
               name="pw"
             ></input>
           </div>
@@ -115,7 +115,7 @@ export default function SignUp() {
             닉네임
           </label>
           <div
-            className={`flex items-center w-full h-[60px] border rounded-2xl bg-background mt-2 ${
+            className={`flex items-center w-full h-[60px] border rounded-2xl bg-inputBg mt-2 ${
               actionResult &&
               'nicknameErrMsg' in actionResult &&
               actionResult?.nicknameErrMsg
@@ -135,7 +135,7 @@ export default function SignUp() {
             <input
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
-              className="w-full mx-3 bg-background outline-none"
+              className="w-full mx-3 bg-inputBg outline-none"
               name="nickname"
             ></input>
           </div>

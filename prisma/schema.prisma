@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  loginId String @unique
+  password String
+  createdAt DateTime @default(now())
+  secret Secret?
+  clicks Click[]
+}
+
+model Secret {
+  id Int @id @default(autoincrement())
+  hint String
+  content String
+  revealCount Int
+  owner User @relation(fields: [ownerId], references: [id])
+  ownerId Int @unique
+  clicks Click[]
+}
+
+model Click {
+  secret Secret @relation(fields: [secretId], references: [id])
+  secretId Int
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  clickCount Int
+
+  @@id([secretId, userId])
+  @@index([secretId, clickCount(sort: Desc)])
+  @@index([userId])
+}

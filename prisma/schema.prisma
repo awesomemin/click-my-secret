@@ -24,7 +24,7 @@ model User {
 }
 
 model Secret {
-  id Int @id @default(autoincrement())
+  id Int @id
   hint String
   content String
   revealCount Int

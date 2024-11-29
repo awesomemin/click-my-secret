@@ -9,7 +9,7 @@ const SECRET_KEY = process.env.JWT_SECRET;
 export async function signUp(
   currentState: any,
   formData: FormData
-): Promise<signUpResult | void> {
+): Promise<signUpResult | loginResult | void> {
   const id = formData.get('id')?.toString().trim();
   const pw = formData.get('pw')?.toString().trim();
   const nickname = formData.get('nickname')?.toString().trim();
@@ -54,7 +54,8 @@ export async function signUp(
   }
   if (Object.keys(actionResult).length !== 0) return actionResult;
 
-  await login(currentState, formData);
+  const loginResult = await login(currentState, formData);
+  return loginResult;
 }
 
 export async function login(
@@ -83,7 +84,6 @@ export async function login(
     if (!(await isPasswordValid(pw, user.password))) {
       throw new Error('ID 또는 비밀번호가 잘못되었습니다.');
     }
-    console.log(user);
   } catch (error: unknown) {
     if (error instanceof Error) {
       actionResult.success = false;

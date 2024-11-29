@@ -1,4 +1,4 @@
-import { MdPerson, MdLock, MdTagFaces } from 'react-icons/md';
+import { MdPerson, MdLock } from 'react-icons/md';
 import Link from 'next/link';
 
 export default function SignUp() {

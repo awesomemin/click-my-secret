@@ -1,9 +1,11 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { prisma } from '../lib/prisma';
 import { loginResult, signUpResult } from './types';
+import { redirect } from 'next/navigation';
 const SECRET_KEY = process.env.JWT_SECRET;
 
 export async function signUp(
@@ -96,8 +98,16 @@ export async function login(
   }
 
   const jwtToken = generateJWTToken(id);
-  actionResult.jwtToken = jwtToken;
+  const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  const cookieStore = await cookies();
+  cookieStore.set('jwtToken', jwtToken, {
+    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    secure: true,
+    httpOnly: true,
+    sameSite: true,
+  });
   actionResult.message = '성공적으로 로그인하였습니다.';
+  redirect('/');
   return actionResult;
 }
 

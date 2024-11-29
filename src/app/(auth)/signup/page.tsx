@@ -4,7 +4,7 @@ import { MdPerson, MdLock, MdTagFaces } from 'react-icons/md';
 import Link from 'next/link';
 import Form from 'next/form';
 import { signUp } from '../actions';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useState } from 'react';
 import Spinner from '@/components/spinner';
 import { useRouter } from 'next/navigation';
 
@@ -14,13 +14,6 @@ export default function SignUp() {
   const [pw, setPw] = useState('');
   const [nickname, setNickname] = useState('');
   let [actionResult, formAction, isPending] = useActionState(signUp, {});
-
-  useEffect(() => {
-    if ('jwtToken' in actionResult && actionResult.jwtToken) {
-      localStorage.setItem('jwtToken', actionResult.jwtToken);
-      router.push('/');
-    }
-  }, [actionResult]);
 
   return (
     <>

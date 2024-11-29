@@ -7,5 +7,4 @@ export interface signUpResult {
 export interface loginResult {
   success: boolean;
   message?: string;
-  jwtToken?: string;
 }

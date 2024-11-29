@@ -1,88 +1,75 @@
 'use server';
 
-//import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { prisma } from '../lib/prisma';
+import { loginResult, signUpResult } from './types';
+const SECRET_KEY = process.env.JWT_SECRET;
 
-// const SECRET_KEY = process.env.JWT_SECRET;
-
-export async function signUp(currentState: any, formData: FormData) {
+export async function signUp(
+  currentState: any,
+  formData: FormData
+): Promise<signUpResult | void> {
   const id = formData.get('id')?.toString().trim();
   const pw = formData.get('pw')?.toString().trim();
   const nickname = formData.get('nickname')?.toString().trim();
-  const actionResult = {
-    message: '',
-    isIdInvalid: false,
-    isPwInvalid: false,
-    isNicknameInvalid: false,
-  };
+  const actionResult: signUpResult = {};
   if (!id) {
-    actionResult.message += 'ID를 입력해주세요.';
-    actionResult.isIdInvalid = true;
+    actionResult.idErrMsg = 'ID를 입력해주세요.';
   } else if (!isValidId(id)) {
-    actionResult.message +=
-      'ID는 3~20자 사이의 영문 대소문자 및 숫자로 입력해주세요.';
-    actionResult.isIdInvalid = true;
+    actionResult.idErrMsg =
+      'ID는 3~20자 사이의\n영문 대소문자 및 숫자로 입력해주세요.';
   }
-
   if (!pw) {
-    actionResult.message += '비밀번호를 입력해주세요.';
-    actionResult.isPwInvalid = true;
+    actionResult.pwErrMsg = '비밀번호를 입력해주세요.';
   } else if (!isValidPw(pw)) {
-    actionResult.message +=
+    actionResult.pwErrMsg =
       '비밀번호는 3~20자 사이의 영문 대소문자 및 숫자, 특수문자(~,!,@,#,$,%,^,&,*,?)로 입력해주세요.';
-    actionResult.isPwInvalid = true;
   }
-
   if (!nickname) {
-    actionResult.message += '닉네임을 입력해주세요.';
-    actionResult.isNicknameInvalid = true;
+    actionResult.nicknameErrMsg = '닉네임을 입력해주세요.';
   } else if (!isValidNickname(nickname)) {
-    actionResult.message +=
+    actionResult.nicknameErrMsg =
       '닉네임은 2~10자 사이의 영문, 한글, 및 특수문자(~,!,@,#,$,%,^,&,*,?)로 입력해주세요.';
-    actionResult.isNicknameInvalid = true;
   }
+  if (Object.keys(actionResult).length !== 0) return actionResult;
 
-  if (
-    actionResult.isIdInvalid ||
-    actionResult.isNicknameInvalid ||
-    actionResult.isPwInvalid ||
-    id === undefined ||
-    pw === undefined ||
-    nickname === undefined
-  )
-    return actionResult;
-
-  const hashedPw = await hashPassword(pw);
-
+  const hashedPw = await hashPassword(pw!);
   try {
     const newUser = await prisma.user.create({
       data: {
-        loginId: id,
+        loginId: id!,
         password: hashedPw,
-        nickname: nickname,
+        nickname: nickname!,
       },
     });
   } catch (error: any) {
     if (error.code === 'P2002' && error.message.includes('nickname')) {
-      actionResult.isNicknameInvalid = true;
-      actionResult.message += '이미 존재하는 닉네임입니다.';
+      actionResult.nicknameErrMsg = '이미 존재하는 닉네임입니다.';
     } else if (error.code === 'P2002' && error.message.includes('loginId')) {
-      actionResult.isIdInvalid = true;
-      actionResult.message += '중복된 ID입니다.';
+      actionResult.idErrMsg = '중복된 ID입니다.';
     } else {
       throw new Error(error.message);
     }
   }
+  if (Object.keys(actionResult).length !== 0) return actionResult;
 
-  return actionResult;
+  await login(currentState, formData);
 }
 
-export async function login(currentState: any, formData: FormData) {
+export async function login(
+  currentState: any,
+  formData: FormData
+): Promise<loginResult> {
   const id = formData.get('id')?.toString().trim();
   const pw = formData.get('pw')?.toString().trim();
+  const actionResult: loginResult = {
+    success: true,
+  };
   if (!id || !pw) {
-    return { message: 'ID와 비밀번호를 입력해주세요.' };
+    actionResult.success = false;
+    actionResult.message = 'ID와 비밀번호를 입력해주세요.';
+    return actionResult;
   }
   try {
     const user = await prisma.user.findUnique({
@@ -97,9 +84,28 @@ export async function login(currentState: any, formData: FormData) {
       throw new Error('ID 또는 비밀번호가 잘못되었습니다.');
     }
     console.log(user);
-  } catch (error) {
-    console.error('그런 유저 없어요.', error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      actionResult.success = false;
+      actionResult.message = error.message;
+    } else {
+      actionResult.success = false;
+      actionResult.message = '알 수 없는 오류가 발생했습니다.';
+    }
+    return actionResult;
   }
+
+  const jwtToken = generateJWTToken(id);
+  actionResult.jwtToken = jwtToken;
+  actionResult.message = '성공적으로 로그인하였습니다.';
+  return actionResult;
+}
+
+function generateJWTToken(userId: string) {
+  if (!SECRET_KEY) {
+    throw new Error('JWT_SECRET 환경 변수가 설정되지 않았습니다.');
+  }
+  return jwt.sign({ userId }, SECRET_KEY, { expiresIn: '30d' });
 }
 
 function isValidId(id: string): boolean {

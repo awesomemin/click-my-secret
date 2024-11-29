@@ -1,10 +1,8 @@
 'use server';
 
-import { Prisma, PrismaClient } from '@prisma/client';
 //import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-
-const prisma = new PrismaClient();
+import { prisma } from './lib/prisma';
 
 const SECRET_KEY = process.env.JWT_SECRET;
 

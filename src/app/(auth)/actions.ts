@@ -2,9 +2,9 @@
 
 //import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { prisma } from './lib/prisma';
+import { prisma } from '../lib/prisma';
 
-const SECRET_KEY = process.env.JWT_SECRET;
+// const SECRET_KEY = process.env.JWT_SECRET;
 
 export async function signUp(currentState: any, formData: FormData) {
   const id = formData.get('id')?.toString().trim();

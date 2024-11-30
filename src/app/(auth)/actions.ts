@@ -1,7 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { prisma } from '../lib/prisma';
 import { loginResult, signUpResult } from './types';
 import { redirect } from 'next/navigation';

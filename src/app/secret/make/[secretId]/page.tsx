@@ -1,5 +1,9 @@
+'use client';
+
 import { Gamja_Flower } from 'next/font/google';
 import { FiLink } from 'react-icons/fi';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const gamja = Gamja_Flower({
   subsets: ['latin'],
@@ -7,12 +11,30 @@ const gamja = Gamja_Flower({
 });
 
 export default function SecretComplete() {
+  const pathname = usePathname();
+  const secretId = pathname.slice(13);
+  const [nickname, setNickname] = useState('');
+  const [hint, setHint] = useState('');
+  const [content, setContent] = useState('');
+  const [revealCount, setRevealCount] = useState(0);
+
+  useEffect(() => {
+    async function fetchSecretInfo(secretId: string) {
+      const response = await fetch(`/api/secret?secretId=${secretId}`);
+      const data = await response.json();
+      setNickname(data.ownerNickname);
+      setHint(data.hint);
+      setContent(data.content);
+      setRevealCount(data.revealCount);
+    }
+    fetchSecretInfo(secretId);
+  }, []);
   return (
     <>
       <div className="flex flex-col">
         <h2 className="text-2xl font text-center mt-[60px]">축하합니다!</h2>
         <h2 className="font-semibold text-xl text-center mt-9">
-          <span className="text-primary">{'어썸민'}</span>님의 비밀이
+          <span className="text-primary">{nickname}</span>님의 비밀이
           완성되었어요
         </h2>
         <div className="w-full mt-7">
@@ -22,7 +44,7 @@ export default function SecretComplete() {
           <div
             className={`flex items-center justify-center w-full h-[60px] border border-lightGray rounded-2xl bg-inputBg mt-2 text-sm ${gamja.className}`}
           >
-            {'비밀 힌트'}
+            {hint}
           </div>
         </div>
         <div className="w-full mt-4">
@@ -33,13 +55,13 @@ export default function SecretComplete() {
           <div
             className={`w-full h-80 p-3 overflow-scroll border border-lightGray rounded-2xl bg-inputBg mt-2 text-sm ${gamja.className}`}
           >
-            {'비밀 내용'}
+            {content}
           </div>
         </div>
         <p className="text-center mt-6">
           2024. 12. 24. 22:00 기준
           <br />
-          클릭 수 상위 {5}명에게만
+          클릭 수 상위 {revealCount}명에게만
           <br />
           나의 비밀이 공유돼요
         </p>

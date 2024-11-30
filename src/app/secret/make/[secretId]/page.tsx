@@ -17,6 +17,7 @@ export default function SecretComplete() {
   const [hint, setHint] = useState('');
   const [content, setContent] = useState('');
   const [revealCount, setRevealCount] = useState(0);
+  const [buttonToggle, setButtonToggle] = useState(true);
 
   useEffect(() => {
     async function fetchSecretInfo(secretId: string) {
@@ -65,9 +66,25 @@ export default function SecretComplete() {
           <br />
           나의 비밀이 공유돼요
         </p>
-        <button className="flex items-center gap-2 justify-center w-full h-16 bg-primary rounded-2xl text-lg font-semibold mt-6">
-          <FiLink />
-          링크 복사하기
+        <button
+          className="flex items-center gap-2 justify-center w-full h-16 bg-primary rounded-2xl text-lg font-semibold mt-6"
+          onClick={() => {
+            setButtonToggle(false);
+            setTimeout(() => setButtonToggle(true), 300);
+            const { protocol, host, pathname } = window.location;
+            navigator.clipboard.writeText(
+              `${protocol}//${host}/secret/${secretId}`
+            );
+          }}
+        >
+          {buttonToggle ? (
+            <>
+              <FiLink />
+              링크 복사하기
+            </>
+          ) : (
+            <span className="text-sm">클립보드에 복사되었습니다.</span>
+          )}
         </button>
         <button className="w-full h-16 bg-primary rounded-2xl text-lg font-semibold mt-6 mb-[60px]">
           완료

@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 import Spinner from '@/components/spinner';
 
 export default function Login() {
-  const router = useRouter();
   const [loginResult, formAction, isPending] = useActionState(login, {
     success: true,
   });

@@ -18,6 +18,20 @@ export async function middleware(request: NextRequest) {
       new URL(`/secret/make/${secretId}`, request.url)
     );
   }
+
+  if (request.nextUrl.pathname.startsWith('/secret/make/')) {
+    if (userInfo === undefined)
+      return NextResponse.redirect(new URL('/login', request.url));
+    const secretId = await hashSecretId(userInfo.loginId);
+    if (request.nextUrl.pathname.slice(13) === secretId) {
+      // 제대로 된 곳으로 들어왔어요
+    } else {
+      // 이상한 곳으로 들어왔어요
+      return NextResponse.redirect(
+        new URL(`/secret/make/${secretId}`, request.url)
+      );
+    }
+  }
 }
 
 export const config = {

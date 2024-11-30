@@ -5,7 +5,6 @@ import envelope from '@/../public/envelope.png';
 import { Gamja_Flower } from 'next/font/google';
 import { useState } from 'react';
 import { MdArrowBack, MdLightbulb, MdGroups } from 'react-icons/md';
-import { prisma } from '@/app/lib/prisma';
 
 const gamja = Gamja_Flower({
   subsets: ['latin'],

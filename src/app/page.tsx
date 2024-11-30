@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Lock from '../../public/lock.png';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -13,9 +14,12 @@ export default function Home() {
           나의 비밀을 공유해보세요
         </p>
         <div className="flex-grow"></div>
-        <button className="w-full h-16 bg-primary rounded-2xl text-lg font-semibold">
+        <Link
+          href="/secret/make/12"
+          className="w-full h-16 bg-primary rounded-2xl text-lg font-semibold flex items-center justify-center"
+        >
           비밀 만들러 가기
-        </button>
+        </Link>
         <button className="text-gray mt-10 mb-20">비밀 구경하러 가기</button>
       </div>
     </>

@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 import { prisma } from '../lib/prisma';
 import { loginResult, signUpResult } from './types';
 import { redirect } from 'next/navigation';
-const SECRET_KEY = process.env.JWT_SECRET;
+import { generateJWTToken } from '../lib/auth';
 
 export async function signUp(
   currentState: any,
@@ -108,13 +108,6 @@ export async function login(
   actionResult.message = '성공적으로 로그인하였습니다.';
   redirect('/');
   return actionResult;
-}
-
-function generateJWTToken(userId: string) {
-  if (!SECRET_KEY) {
-    throw new Error('JWT_SECRET 환경 변수가 설정되지 않았습니다.');
-  }
-  return jwt.sign({ userId }, SECRET_KEY, { expiresIn: '30d' });
 }
 
 function isValidId(id: string): boolean {

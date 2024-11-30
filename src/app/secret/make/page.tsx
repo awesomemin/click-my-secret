@@ -4,7 +4,6 @@ import Image from 'next/image';
 import envelope from '@/../public/envelope.png';
 import { Gamja_Flower } from 'next/font/google';
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { MdArrowBack, MdLightbulb, MdGroups } from 'react-icons/md';
 
 const gamja = Gamja_Flower({
@@ -29,7 +28,6 @@ function handleSecretSubmit(
 
 export default function SecretMake() {
   const [step, setStep] = useState(1);
-  const pathname = usePathname();
   const [content, setContent] = useState('');
   const [hint, setHint] = useState('');
   const [revealCount, setRevealCount] = useState(3);

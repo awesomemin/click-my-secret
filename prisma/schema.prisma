@@ -24,7 +24,7 @@ model User {
 }
 
 model Secret {
-  id Int @id
+  id String @id
   hint String
   content String
   revealCount Int
@@ -35,7 +35,7 @@ model Secret {
 
 model Click {
   secret Secret @relation(fields: [secretId], references: [id])
-  secretId Int
+  secretId String
   user User @relation(fields: [userId], references: [id])
   userId Int
   clickCount Int

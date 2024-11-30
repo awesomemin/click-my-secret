@@ -1,25 +1,26 @@
-import jwt from 'jsonwebtoken';
+import { jwtVerify, SignJWT } from 'jose';
 
 const SECRET_KEY = process.env.JWT_SECRET;
 
-export function verifyJWTToken(token: string) {
-  if (SECRET_KEY === undefined) {
-    throw new Error(
-      '서버 환경 변수에 JWT_SECRET 환경 변수가 설정되지 않았습니다.'
-    );
-  }
+export async function verifyJWTToken(token: string) {
+  const secret = new TextEncoder().encode(SECRET_KEY);
+
   try {
-    return jwt.verify(token, SECRET_KEY);
+    const { payload } = await jwtVerify(token, secret);
+    return payload;
   } catch (error) {
+    console.error(error);
     throw new Error('부적절한 토큰입니다.');
   }
 }
 
-export function generateJWTToken(loginId: string, nickname: string) {
-  if (!SECRET_KEY) {
-    throw new Error(
-      '서버 환경 변수에 JWT_SECRET 환경 변수가 설정되지 않았습니다.'
-    );
-  }
-  return jwt.sign({ loginId, nickname }, SECRET_KEY, { expiresIn: '30d' });
+export async function generateJWTToken(loginId: string, nickname: string) {
+  const secret = new TextEncoder().encode(SECRET_KEY);
+
+  const token = await new SignJWT({ loginId, nickname })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setExpirationTime('30d')
+    .sign(secret);
+
+  return token;
 }

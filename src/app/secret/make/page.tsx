@@ -5,6 +5,7 @@ import envelope from '@/../public/envelope.png';
 import { Gamja_Flower } from 'next/font/google';
 import { useState } from 'react';
 import { MdArrowBack, MdLightbulb, MdGroups } from 'react-icons/md';
+import { prisma } from '@/app/lib/prisma';
 
 const gamja = Gamja_Flower({
   subsets: ['latin'],
@@ -24,6 +25,23 @@ function handleSecretSubmit(
     alert('비밀 힌트를 입력해주세요.');
     return;
   }
+  makeSecret(content, hint, revealCount);
+}
+
+async function makeSecret(content: string, hint: string, revealCount: number) {
+  const response = await fetch('/api/secret', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      content,
+      hint,
+      revealCount,
+    }),
+  });
+  const data = await response.json();
+  console.log(data);
 }
 
 export default function SecretMake() {

@@ -15,7 +15,7 @@ export default function Home() {
         </p>
         <div className="flex-grow"></div>
         <Link
-          href="/secret/make/12"
+          href="/secret/make"
           className="w-full h-16 bg-primary rounded-2xl text-lg font-semibold flex items-center justify-center"
         >
           비밀 만들러 가기

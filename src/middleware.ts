@@ -9,11 +9,11 @@ export async function middleware(request: NextRequest) {
     userInfo = await verifyJWTToken(token.value);
   }
 
-  if (request.nextUrl.pathname.startsWith('/secret/make')) {
+  if (request.nextUrl.pathname === '/secret/make') {
     if (userInfo === undefined)
       return NextResponse.redirect(new URL('/login', request.url));
 
-    const secretId = hashSecretId(userInfo.loginId);
+    const secretId = await hashSecretId(userInfo.loginId);
     return NextResponse.redirect(
       new URL(`/secret/make/${secretId}`, request.url)
     );

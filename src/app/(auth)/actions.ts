@@ -74,8 +74,9 @@ export async function login(
     actionResult.message = 'ID와 비밀번호를 입력해주세요.';
     return actionResult;
   }
+  let user;
   try {
-    const user = await prisma.user.findUnique({
+    user = await prisma.user.findUnique({
       where: {
         loginId: id,
       },
@@ -97,7 +98,7 @@ export async function login(
     return actionResult;
   }
 
-  const jwtToken = generateJWTToken(id);
+  const jwtToken = generateJWTToken(user.loginId, user.nickname);
   const cookieStore = await cookies();
   cookieStore.set('jwtToken', jwtToken, {
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),

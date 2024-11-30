@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { CustomJwtPayLoad, verifyJWTToken } from './app/lib/auth';
-import { hashSecretId } from './app/lib/secret';
 
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get('jwtToken');

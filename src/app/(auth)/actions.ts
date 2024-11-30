@@ -97,7 +97,7 @@ export async function login(
     return actionResult;
   }
 
-  const jwtToken = await generateJWTToken(user.loginId, user.nickname);
+  const jwtToken = await generateJWTToken(user.id, user.loginId, user.nickname);
   const cookieStore = await cookies();
   cookieStore.set('jwtToken', jwtToken, {
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),

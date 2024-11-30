@@ -14,10 +14,14 @@ export async function verifyJWTToken(token: string) {
   }
 }
 
-export async function generateJWTToken(loginId: string, nickname: string) {
+export async function generateJWTToken(
+  userId: number,
+  loginId: string,
+  nickname: string
+) {
   const secret = new TextEncoder().encode(SECRET_KEY);
 
-  const token = await new SignJWT({ loginId, nickname })
+  const token = await new SignJWT({ userId, loginId, nickname })
     .setProtectedHeader({ alg: 'HS256' })
     .setExpirationTime('30d')
     .sign(secret);

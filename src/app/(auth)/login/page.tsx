@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Form from 'next/form';
 import { login } from '../actions';
 import { useActionState } from 'react';
-import { useRouter } from 'next/navigation';
 import Spinner from '@/components/spinner';
 
 export default function Login() {

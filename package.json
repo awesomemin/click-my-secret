@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@leenguyen/react-flip-clock-countdown": "^1.6.0",
     "@prisma/client": "^6.0.0",
     "bcryptjs": "^2.4.3",
     "jose": "^5.9.6",

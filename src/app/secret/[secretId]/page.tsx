@@ -60,7 +60,7 @@ export default function SecretPage() {
           className="w-24 h-24 mx-auto my-5"
         />
         <div
-          className={`w-screen sticky bottom-0 min-h-16 -ml-10 rounded-t-xl bg-primary transition-all ${
+          className={`w-screen sticky bottom-0 min-h-16 -ml-10 rounded-t-xl bg-primary ${
             isLeaderboardExpanded ? 'h-fit' : 'h-full overflow-hidden'
           }`}
         >
@@ -70,7 +70,7 @@ export default function SecretPage() {
           />
           <p className="text-center font-semibold text-sm mt-[6px]">순위표</p>
           <div
-            className={`flex flex-col gap-2 mx-4 mt-3 overflow-scroll transition-all ${
+            className={`flex flex-col gap-2 mx-4 mt-3 overflow-scroll ${
               isLeaderboardExpanded ? 'h-fit max-h-96' : 'h-full'
             }`}
           >

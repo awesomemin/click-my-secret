@@ -13,13 +13,16 @@ const gamja = Gamja_Flower({
 
 export default function SecretPage() {
   const [isClient, setIsClient] = useState(false);
+  const [isLeaderboardExpanded, setIsLeaderboardExpanded] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
   return (
     <>
-      <div className="flex flex-col h-screen">
+      <div
+        className={`flex flex-col ${isLeaderboardExpanded ? '' : 'h-screen'}`}
+      >
         <h1 className="text-2xl font-semibold text-center mt-[60px] mb-8">
           <span className="text-primary">{'어썸민'}</span>님의 비밀
         </h1>
@@ -56,15 +59,37 @@ export default function SecretPage() {
           alt="image of a key"
           className="w-24 h-24 mx-auto my-5"
         />
-        <div className="w-screen sticky bottom-0 min-h-16 -ml-10 rounded-t-xl bg-primary overflow-hidden">
-          <div className="h-[6px] w-16 bg-black opacity-50 mx-auto mt-[6px] rounded-full" />
+        <div
+          className={`w-screen sticky bottom-0 min-h-16 -ml-10 rounded-t-xl bg-primary transition-all ${
+            isLeaderboardExpanded ? 'h-fit' : 'h-full overflow-hidden'
+          }`}
+        >
+          <div
+            onClick={() => setIsLeaderboardExpanded((e) => !e)}
+            className="h-[6px] w-16 bg-black opacity-50 mx-auto mt-[6px] rounded-full"
+          />
           <p className="text-center font-semibold text-sm mt-[6px]">순위표</p>
-          <div className="flex flex-col gap-2 mx-4 mt-3 h-full overflow-scroll">
+          <div
+            className={`flex flex-col gap-2 mx-4 mt-3 overflow-scroll transition-all ${
+              isLeaderboardExpanded ? 'h-fit max-h-96' : 'h-full'
+            }`}
+          >
             <LeaderboardItem nickname="닉네임1" rank={1} point={2215} />
             <LeaderboardItem nickname="닉네임2" rank={2} point={1251} />
             <LeaderboardItem nickname="닉네임3" rank={3} point={795} />
             <LeaderboardItem nickname="닉네임4" rank={4} point={25} />
             <LeaderboardItem nickname="닉네임5" rank={5} point={20} />
+            <LeaderboardItem nickname="닉네임6" rank={6} point={2} />
+            <LeaderboardItem nickname="닉네임6" rank={6} point={2} />
+            <LeaderboardItem nickname="닉네임6" rank={6} point={2} />
+            <LeaderboardItem nickname="닉네임6" rank={6} point={2} />
+            <LeaderboardItem nickname="닉네임6" rank={6} point={2} />
+            <LeaderboardItem nickname="닉네임6" rank={6} point={2} />
+            <LeaderboardItem nickname="닉네임6" rank={6} point={2} />
+            <LeaderboardItem nickname="닉네임6" rank={6} point={2} />
+            <LeaderboardItem nickname="닉네임6" rank={6} point={2} />
+            <LeaderboardItem nickname="닉네임6" rank={6} point={2} />
+            <LeaderboardItem nickname="닉네임6" rank={6} point={2} />
             <LeaderboardItem nickname="닉네임6" rank={6} point={2} />
           </div>
         </div>

@@ -12,7 +12,7 @@ export default function LinkButton({ secretId }: { secretId: string }) {
       onClick={() => {
         setButtonToggle(false);
         setTimeout(() => setButtonToggle(true), 300);
-        const { protocol, host, pathname } = window.location;
+        const { protocol, host } = window.location;
         navigator.clipboard.writeText(
           `${protocol}//${host}/secret/${secretId}`
         );

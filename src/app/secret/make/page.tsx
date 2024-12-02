@@ -5,49 +5,56 @@ import envelope from '@/../public/envelope.png';
 import { Gamja_Flower } from 'next/font/google';
 import { useState } from 'react';
 import { MdArrowBack, MdLightbulb, MdGroups } from 'react-icons/md';
+import { useRouter } from 'next/navigation';
 
 const gamja = Gamja_Flower({
   subsets: ['latin'],
   weight: '400',
 });
 
-function handleSecretSubmit(
-  content: string,
-  hint: string,
-  revealCount: number
-) {
-  if (revealCount <= 0 || revealCount > 10) {
-    alert('비밀 공개는 1 ~ 10명에게 할 수 있습니다.');
-    return;
-  }
-  if (hint.trim() === '') {
-    alert('비밀 힌트를 입력해주세요.');
-    return;
-  }
-  makeSecret(content, hint, revealCount);
-}
-
-async function makeSecret(content: string, hint: string, revealCount: number) {
-  const response = await fetch('/api/secret', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      content,
-      hint,
-      revealCount,
-    }),
-  });
-  const data = await response.json();
-  console.log(data);
-}
-
 export default function SecretMake() {
   const [step, setStep] = useState(1);
   const [content, setContent] = useState('');
   const [hint, setHint] = useState('');
   const [revealCount, setRevealCount] = useState(3);
+  const router = useRouter();
+
+  function handleSecretSubmit(
+    content: string,
+    hint: string,
+    revealCount: number
+  ) {
+    if (revealCount <= 0 || revealCount > 10) {
+      alert('비밀 공개는 1 ~ 10명에게 할 수 있습니다.');
+      return;
+    }
+    if (hint.trim() === '') {
+      alert('비밀 힌트를 입력해주세요.');
+      return;
+    }
+    makeSecret(content, hint, revealCount);
+  }
+
+  async function makeSecret(
+    content: string,
+    hint: string,
+    revealCount: number
+  ) {
+    const response = await fetch('/api/secret', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content,
+        hint,
+        revealCount,
+      }),
+    });
+    const data = await response.json();
+    router.push(data.redirectUrl);
+  }
+
   return (
     <>
       <div className="flex flex-col items-center h-screen">

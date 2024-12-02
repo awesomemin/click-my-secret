@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/app/lib/prisma';
 import { CustomJwtPayLoad, verifyJWTToken } from '@/app/lib/auth';
 import { hashSecretId } from '@/app/lib/secret';
+import { redirect } from 'next/navigation';
 
 type Body = {
   hint: string;
@@ -137,5 +138,7 @@ export async function POST(request: NextRequest) {
       },
     },
   });
-  return NextResponse.json(newSecret);
+  return NextResponse.json({
+    redirectUrl: new URL(`/secret/make/${newSecretId}`, request.url),
+  });
 }

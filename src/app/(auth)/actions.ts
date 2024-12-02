@@ -7,8 +7,17 @@ import { loginResult, signUpResult } from './types';
 import { redirect } from 'next/navigation';
 import { generateJWTToken } from '../lib/auth';
 
+class SignUpError extends Error {
+  public code: string;
+
+  constructor(code: string, message: string) {
+    super(message);
+    this.code = code;
+  }
+}
+
 export async function signUp(
-  currentState: any,
+  currentState: null,
   formData: FormData
 ): Promise<signUpResult | loginResult> {
   const id = formData.get('id')?.toString().trim();
@@ -47,13 +56,15 @@ export async function signUp(
     if (!newUser) {
       throw new Error('회원가입 중 문제가 발생했습니다.');
     }
-  } catch (error: any) {
-    if (error.code === 'P2002' && error.message.includes('nickname')) {
-      actionResult.nicknameErrMsg = '이미 존재하는 닉네임입니다.';
-    } else if (error.code === 'P2002' && error.message.includes('loginId')) {
-      actionResult.idErrMsg = '중복된 ID입니다.';
-    } else {
-      throw new Error(error.message);
+  } catch (error: unknown) {
+    if (error instanceof SignUpError) {
+      if (error.code === 'P2002' && error.message.includes('nickname')) {
+        actionResult.nicknameErrMsg = '이미 존재하는 닉네임입니다.';
+      } else if (error.code === 'P2002' && error.message.includes('loginId')) {
+        actionResult.idErrMsg = '중복된 ID입니다.';
+      } else {
+        throw new Error(error.message);
+      }
     }
   }
   if (Object.keys(actionResult).length !== 0) return actionResult;
@@ -63,7 +74,7 @@ export async function signUp(
 }
 
 export async function login(
-  currentState: any,
+  currentState: null,
   formData: FormData
 ): Promise<loginResult> {
   const id = formData.get('id')?.toString().trim();
@@ -133,9 +144,9 @@ async function hashPassword(plainPw: string): Promise<string> {
   try {
     const hashedPw = await bcrypt.hash(plainPw, saltRounds);
     return hashedPw;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('비밀번호 해싱 도중 에러가 발생했습니다.', error);
-    throw new Error(error.message);
+    throw new Error('비밀번호 해싱 도중 에러가 발생했습니다.');
   }
 }
 

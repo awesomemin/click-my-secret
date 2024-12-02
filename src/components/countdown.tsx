@@ -33,10 +33,10 @@ export default function Countdown() {
             <div className="text-[10px] absolute left-[50%] translate-x-[-50%] bottom-[3px]">
               Days
             </div>
-            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-sm">
+            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-[4px]">
               <div className="w-full h-[0.8px] bg-gray"></div>
             </div>
-            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-sm">
+            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-[4px]">
               <div className="w-full h-[0.8px] bg-gray"></div>
             </div>
           </div>
@@ -48,10 +48,10 @@ export default function Countdown() {
             <div className="text-[10px] absolute left-[50%] translate-x-[-50%] bottom-[3px]">
               Hours
             </div>
-            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-sm">
+            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-[4px]">
               <div className="w-full h-[0.8px] bg-gray"></div>
             </div>
-            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-sm">
+            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-[4px]">
               <div className="w-full h-[0.8px] bg-gray"></div>
             </div>
           </div>
@@ -63,10 +63,10 @@ export default function Countdown() {
             <div className="text-[10px] absolute left-[50%] translate-x-[-50%] bottom-[3px]">
               Minutes
             </div>
-            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-sm">
+            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-[4px]">
               <div className="w-full h-[0.8px] bg-gray"></div>
             </div>
-            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-sm">
+            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-[4px]">
               <div className="w-full h-[0.8px] bg-gray"></div>
             </div>
           </div>
@@ -78,10 +78,10 @@ export default function Countdown() {
             <div className="text-[10px] absolute left-[50%] translate-x-[-50%] bottom-[3px]">
               Seconds
             </div>
-            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-sm">
+            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-[4px]">
               <div className="w-full h-[0.8px] bg-gray"></div>
             </div>
-            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-sm">
+            <div className="flex items-center w-[25px] h-[35px] bg-[#43454c] rounded-[4px]">
               <div className="w-full h-[0.8px] bg-gray"></div>
             </div>
           </div>

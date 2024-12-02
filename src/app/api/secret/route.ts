@@ -66,7 +66,7 @@ export async function GET(request: NextRequest) {
       },
       select: {
         hint: true,
-        //content: false,
+        content: true,
         revealCount: true,
         owner: {
           select: {
@@ -81,6 +81,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       hint: secretInfo.hint,
+      contentLength: secretInfo.content.length,
       revealCount: secretInfo.revealCount,
       ownerNickname: secretInfo.owner.nickname,
     });

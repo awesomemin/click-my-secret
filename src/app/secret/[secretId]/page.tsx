@@ -2,6 +2,7 @@ import { Gamja_Flower } from 'next/font/google';
 import Countdown from '@/components/countdown';
 import Key from '@/../public/key.png';
 import Image from 'next/image';
+import Leaderboard from './leaderboard';
 
 const gamja = Gamja_Flower({
   subsets: ['latin'],
@@ -10,8 +11,8 @@ const gamja = Gamja_Flower({
 
 export default function SecretPage() {
   return (
-    <>
-      <div className={`flex flex-col h-screen`}>
+    <div className="flex flex-col h-screen">
+      <div className={`flex flex-col`}>
         <h1 className="text-2xl font-semibold text-center mt-[60px] mb-8">
           <span className="text-primary">{'어썸민'}</span>님의 비밀
         </h1>
@@ -49,6 +50,7 @@ export default function SecretPage() {
           className="w-24 h-24 mx-auto my-5"
         />
       </div>
-    </>
+      <Leaderboard />
+    </div>
   );
 }

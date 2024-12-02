@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/app/lib/prisma';
 import { CustomJwtPayLoad, verifyJWTToken } from '@/app/lib/auth';
 import { hashSecretId } from '@/app/lib/secret';
-import { redirect } from 'next/navigation';
 
 type Body = {
   hint: string;

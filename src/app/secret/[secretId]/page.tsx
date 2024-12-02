@@ -4,6 +4,7 @@ import Key from '@/../public/key.png';
 import Image from 'next/image';
 import Leaderboard from './leaderboard';
 import { cookies, headers } from 'next/headers';
+import { makeRandomSecretString } from '@/app/lib/secret';
 
 const gamja = Gamja_Flower({
   subsets: ['latin'],
@@ -34,7 +35,7 @@ export default async function SecretPage({
   const nickname: string = data.ownerNickname;
   const hint: string = data.hint;
   const content: string | undefined = data.content;
-  const contentLength: number | undefined = data.contentLenght;
+  const contentLength: number | undefined = data.contentLength;
   const revealCount: number = data.revealCount;
 
   return (
@@ -62,7 +63,7 @@ export default async function SecretPage({
             className={`w-full break-words p-3 overflow-y-scroll border border-lightGray rounded-2xl bg-inputBg mt-2 text-sm ${gamja.className}`}
           >
             <div className={`${!content && 'blur-sm'}`}>
-              {content ? content : '비밀'}
+              {content ? content : makeRandomSecretString(contentLength!)}
             </div>
           </div>
         </div>

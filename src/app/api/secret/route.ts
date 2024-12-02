@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   const token = request.cookies.get('jwtToken');
   const secretId = request.nextUrl.searchParams.get('secretId');
   let userInfo;
-  if (token) {
+  if (token && token?.value !== 'undefined') {
     userInfo = await verifyJWTToken(token.value);
   }
 

@@ -11,7 +11,7 @@ export default function SignUp() {
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
   const [nickname, setNickname] = useState('');
-  let [actionResult, formAction, isPending] = useActionState(signUp, {});
+  const [actionResult, formAction, isPending] = useActionState(signUp, {});
 
   return (
     <>

@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
     if (token) {
       userInfo = await verifyJWTToken(token.value);
     }
-  } catch (error: any) {
+  } catch {
     //부적절한 토큰일 때
     return NextResponse.redirect(new URL('/login', request.url));
   }
@@ -127,17 +127,27 @@ export async function POST(request: NextRequest) {
 
   //정상 요청
   const newSecretId = await hashSecretId(userInfo.loginId);
-  const newSecret = await prisma.secret.create({
-    data: {
-      id: newSecretId,
-      hint: body.hint,
-      content: body.content,
-      revealCount: body.revealCount,
-      owner: {
-        connect: { id: userInfo.userId },
+  try {
+    const newSecret = await prisma.secret.create({
+      data: {
+        id: newSecretId,
+        hint: body.hint,
+        content: body.content,
+        revealCount: body.revealCount,
+        owner: {
+          connect: { id: userInfo.userId },
+        },
       },
-    },
-  });
+    });
+    if (!newSecret) throw new Error('비밀 생성 중 문제가 발생했습니다.');
+  } catch (error: any) {
+    return NextResponse.json(
+      {
+        error: '비밀 생성 중 문제가 발생했습니다.',
+      },
+      { status: 500 }
+    );
+  }
   return NextResponse.json({
     redirectUrl: new URL(`/secret/make/${newSecretId}`, request.url),
   });

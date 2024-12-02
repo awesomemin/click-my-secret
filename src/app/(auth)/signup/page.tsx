@@ -6,10 +6,8 @@ import Form from 'next/form';
 import { signUp } from '../actions';
 import { useActionState, useState } from 'react';
 import Spinner from '@/components/spinner';
-import { useRouter } from 'next/navigation';
 
 export default function SignUp() {
-  const router = useRouter();
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
   const [nickname, setNickname] = useState('');

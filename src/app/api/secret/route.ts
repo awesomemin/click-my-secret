@@ -140,7 +140,7 @@ export async function POST(request: NextRequest) {
       },
     });
     if (!newSecret) throw new Error('비밀 생성 중 문제가 발생했습니다.');
-  } catch (error: any) {
+  } catch {
     return NextResponse.json(
       {
         error: '비밀 생성 중 문제가 발생했습니다.',

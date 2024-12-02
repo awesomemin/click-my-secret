@@ -44,6 +44,9 @@ export async function signUp(
         nickname: nickname!,
       },
     });
+    if (!newUser) {
+      throw new Error('회원가입 중 문제가 발생했습니다.');
+    }
   } catch (error: any) {
     if (error.code === 'P2002' && error.message.includes('nickname')) {
       actionResult.nicknameErrMsg = '이미 존재하는 닉네임입니다.';

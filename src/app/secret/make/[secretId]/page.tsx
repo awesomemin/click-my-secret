@@ -4,6 +4,7 @@ import { Gamja_Flower } from 'next/font/google';
 import { FiLink } from 'react-icons/fi';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const gamja = Gamja_Flower({
   subsets: ['latin'],
@@ -86,9 +87,12 @@ export default function SecretComplete() {
             <span className="text-sm">클립보드에 복사되었습니다.</span>
           )}
         </button>
-        <button className="w-full h-16 bg-primary rounded-2xl text-lg font-semibold mt-6 mb-[60px]">
+        <Link
+          href={`/secret/${secretId}`}
+          className="flex items-center justify-center w-full h-16 bg-primary rounded-2xl text-lg font-semibold mt-6 mb-[60px]"
+        >
           완료
-        </button>
+        </Link>
       </div>
     </>
   );

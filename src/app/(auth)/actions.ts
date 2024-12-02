@@ -17,7 +17,7 @@ class SignUpError extends Error {
 }
 
 export async function signUp(
-  currentState: Record<string, any>,
+  currentState: object,
   formData: FormData
 ): Promise<signUpResult | loginResult> {
   const id = formData.get('id')?.toString().trim();
@@ -74,7 +74,7 @@ export async function signUp(
 }
 
 export async function login(
-  currentState: Record<string, any>,
+  currentState: object,
   formData: FormData
 ): Promise<loginResult> {
   const id = formData.get('id')?.toString().trim();

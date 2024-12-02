@@ -80,7 +80,7 @@ export default function SecretMake() {
               className={`${gamja.className} bg-inputBg w-full border border-lightGray rounded-2xl flex-grow outline-none p-3 text-xs placeholder:text-gray`}
             ></textarea>
             <button
-              onClick={(e) => {
+              onClick={() => {
                 if (content.trim() === '') {
                   alert('비밀 내용을 입력해주세요.');
                   return;

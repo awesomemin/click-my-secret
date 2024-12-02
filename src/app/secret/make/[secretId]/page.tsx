@@ -1,36 +1,39 @@
-'use client';
-
 import { Gamja_Flower } from 'next/font/google';
-import { FiLink } from 'react-icons/fi';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { headers, cookies } from 'next/headers';
 import Link from 'next/link';
+import LinkButton from './button';
 
 const gamja = Gamja_Flower({
   subsets: ['latin'],
   weight: '400',
 });
 
-export default function SecretComplete() {
-  const pathname = usePathname();
-  const secretId = pathname.slice(13);
-  const [nickname, setNickname] = useState('');
-  const [hint, setHint] = useState('');
-  const [content, setContent] = useState('');
-  const [revealCount, setRevealCount] = useState(0);
-  const [buttonToggle, setButtonToggle] = useState(true);
+export default async function SecretComplete({
+  params,
+}: {
+  params: Promise<{ secretId: string }>;
+}) {
+  const headersList = await headers();
+  const cookieStore = await cookies();
+  const jwtToken = cookieStore.get('jwtToken');
+  const host = headersList.get('host');
+  const protocol = headersList.get('x-forwarded-proto');
 
-  useEffect(() => {
-    async function fetchSecretInfo(secretId: string) {
-      const response = await fetch(`/api/secret?secretId=${secretId}`);
-      const data = await response.json();
-      setNickname(data.ownerNickname);
-      setHint(data.hint);
-      setContent(data.content);
-      setRevealCount(data.revealCount);
+  const secretId = (await params).secretId;
+  const response = await fetch(
+    `${protocol}://${host}/api/secret?secretId=${secretId}`,
+    {
+      headers: {
+        Cookie: `jwtToken=${jwtToken?.value}`,
+      },
     }
-    fetchSecretInfo(secretId);
-  }, []);
+  );
+  const data = await response.json();
+  const nickname: string = data.ownerNickname;
+  const hint: string = data.hint;
+  const content: string = data.content;
+  const revealCount: number = data.revealCount;
+
   return (
     <>
       <div className="flex flex-col">
@@ -67,26 +70,7 @@ export default function SecretComplete() {
           <br />
           나의 비밀이 공유돼요
         </p>
-        <button
-          className="flex items-center gap-2 justify-center w-full h-16 bg-primary rounded-2xl text-lg font-semibold mt-6"
-          onClick={() => {
-            setButtonToggle(false);
-            setTimeout(() => setButtonToggle(true), 300);
-            const { protocol, host, pathname } = window.location;
-            navigator.clipboard.writeText(
-              `${protocol}//${host}/secret/${secretId}`
-            );
-          }}
-        >
-          {buttonToggle ? (
-            <>
-              <FiLink />
-              링크 복사하기
-            </>
-          ) : (
-            <span className="text-sm">클립보드에 복사되었습니다.</span>
-          )}
-        </button>
+        <LinkButton secretId={secretId} />
         <Link
           href={`/secret/${secretId}`}
           className="flex items-center justify-center w-full h-16 bg-primary rounded-2xl text-lg font-semibold mt-6 mb-[60px]"

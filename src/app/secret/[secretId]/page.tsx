@@ -1,10 +1,9 @@
 import { Gamja_Flower } from 'next/font/google';
 import Countdown from '@/components/countdown';
-import Key from '@/../public/key.png';
-import Image from 'next/image';
 import Leaderboard from './leaderboard';
 import { cookies, headers } from 'next/headers';
 import { makeRandomSecretString } from '@/app/lib/secret';
+import Key from './key';
 
 const gamja = Gamja_Flower({
   subsets: ['latin'],
@@ -74,11 +73,7 @@ export default async function SecretPage({
           <br />
           비밀이 공유돼요.
         </p>
-        <Image
-          src={Key}
-          alt="image of a key"
-          className="w-24 h-24 mx-auto my-5"
-        />
+        <Key />
       </div>
       <Leaderboard />
     </div>

@@ -73,7 +73,7 @@ export default async function SecretPage({
           <br />
           비밀이 공유돼요.
         </p>
-        <Key />
+        <Key secretId={secretId} />
       </div>
       <Leaderboard />
     </div>

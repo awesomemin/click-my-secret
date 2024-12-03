@@ -1,3 +1,4 @@
+import { prisma } from './prisma';
 import { createClient, RedisClientType } from 'redis';
 
 declare global {
@@ -26,6 +27,24 @@ if (!global.redisClient) {
   global.redisClient = redisClient;
 } else {
   redisClient = global.redisClient;
+}
+
+export async function loadDataToRedis() {
+  try {
+    const isInitialized = await redisClient.get('cache_initialized');
+    //if (isInitialized) return;
+    const rows = await prisma.click.findMany();
+    const pipeline = redisClient.multi();
+    rows.forEach((row) => {
+      const key = `user:${row.userId}:${row.secretId}:clicks`;
+      pipeline.set(key, row.clickCount);
+    });
+    await pipeline.exec();
+    console.log('레디스 초기화에 성공했습니다.');
+    await redisClient.set('cache_initialized', 'true');
+  } catch (error) {
+    console.error('레디스 초기화 중 에러가 발생했습니다.', error);
+  }
 }
 
 export default redisClient;

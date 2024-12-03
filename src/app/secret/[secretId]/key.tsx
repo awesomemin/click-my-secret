@@ -2,14 +2,20 @@
 
 import KeyImage from '@/../public/key.png';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
-async function handleKeyClick() {
-  await fetch('/api/click', {
-    method: 'POST',
-  });
-}
+export default function Key({ secretId }: { secretId: string }) {
+  const router = useRouter();
 
-export default function Key() {
+  async function handleKeyClick() {
+    const response = await fetch(`/api/click?secretId=${secretId}`, {
+      method: 'POST',
+    });
+    const data = await response.json();
+    if (data?.redirectUrl) {
+      router.push(data.redirectUrl);
+    }
+  }
   return (
     <div className="h-24 my-5 mx-auto flex items-center justify-center">
       <Image

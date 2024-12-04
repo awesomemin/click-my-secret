@@ -2,7 +2,7 @@ import { Gamja_Flower } from 'next/font/google';
 import Countdown from '@/components/countdown';
 import Leaderboard from './leaderboard';
 import { cookies, headers } from 'next/headers';
-import { makeRandomSecretString } from '@/app/lib/secret';
+import { makeRandomSecretString } from '@/lib/secret';
 import Key from './key';
 
 const gamja = Gamja_Flower({

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import redis, { loadDataToRedis } from '@/app/lib/redis';
-import { verifyJWTToken } from '@/app/lib/auth';
+import redis, { loadDataToRedis } from '@/lib/redis';
+import { verifyJWTToken } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
   const token = request.cookies.get('jwtToken');

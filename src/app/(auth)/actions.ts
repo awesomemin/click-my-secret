@@ -2,10 +2,10 @@
 
 import { cookies } from 'next/headers';
 import bcrypt from 'bcryptjs';
-import { prisma } from '../lib/prisma';
+import { prisma } from '../../lib/prisma';
 import { loginResult, signUpResult } from './types';
 import { redirect } from 'next/navigation';
-import { generateJWTToken } from '../lib/auth';
+import { generateJWTToken } from '../../lib/auth';
 
 class SignUpError extends Error {
   public code: string;

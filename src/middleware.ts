@@ -45,6 +45,20 @@ export async function middleware(request: NextRequest) {
 
     // 비밀이 없을 때는 정상 진행
   }
+
+  if (request.nextUrl.pathname.startsWith('/secret/make/')) {
+    const secretId = request.nextUrl.pathname.slice(13);
+    if (userInfo === undefined) {
+      return NextResponse.redirect(
+        `${process.env.PROTOCOL}://${process.env.HOST}/secret/${secretId}`
+      );
+    }
+    if ((await hashSecretId(userInfo.loginId)) !== secretId) {
+      return NextResponse.redirect(
+        `${process.env.PROTOCOL}://${process.env.HOST}/secret/${secretId}`
+      );
+    }
+  }
 }
 
 export const config = {

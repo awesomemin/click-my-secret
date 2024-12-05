@@ -12,6 +12,9 @@ export default function Key({ secretId }: { secretId: string }) {
       method: 'POST',
     });
     const data = await response.json();
+    if (!response.ok) {
+      alert(data.error);
+    }
     if (data?.redirectUrl) {
       router.push(data.redirectUrl);
     }

@@ -4,6 +4,8 @@ import Leaderboard from './leaderboard';
 import { cookies, headers } from 'next/headers';
 import { makeRandomSecretString } from '@/lib/secret';
 import Key from './key';
+import Link from 'next/link';
+import { MdHome } from 'react-icons/md';
 
 const gamja = Gamja_Flower({
   subsets: ['latin'],
@@ -39,6 +41,9 @@ export default async function SecretPage({
 
   return (
     <div className="flex flex-col h-screen">
+      <Link href="/" className="absolute top-3 left-3">
+        <MdHome className="w-6 h-6" />
+      </Link>
       <div className={`flex flex-col`}>
         <h1 className="text-2xl font-semibold text-center mt-[60px] mb-8">
           <span className="text-primary">{nickname}</span>님의 비밀

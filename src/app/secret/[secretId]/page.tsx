@@ -64,7 +64,7 @@ export default async function SecretPage({
             비밀 내용{content && ' (나만 볼 수 있어요)'}
           </label>
           <div
-            className={`w-full break-words p-3 overflow-y-scroll border border-lightGray rounded-2xl bg-inputBg mt-2 text-sm ${gamja.className}`}
+            className={`w-full break-words p-3 overflow-y-scroll border border-lightGray rounded-2xl bg-inputBg mt-2 text-sm scrollbar-hide ${gamja.className}`}
           >
             <div className={`${!content && 'blur-sm'}`}>
               {content ? content : makeRandomSecretString(contentLength!)}

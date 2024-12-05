@@ -52,7 +52,7 @@ export default function Leaderboard({
 
   function LeaderboardContent() {
     return (
-      <div className="flex flex-col gap-2 mx-4 mt-3 pb-3 overflow-scroll">
+      <div className="flex flex-col gap-2 mx-4 mt-3 pb-3 overflow-scroll scrollbar-hide">
         {leaderboardData.map((user, i) => (
           <LeaderboardItem
             key={user.nickname}

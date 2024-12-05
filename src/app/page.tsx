@@ -20,7 +20,9 @@ export default function Home() {
         >
           비밀 만들러 가기
         </Link>
-        <button className="text-gray mt-10 mb-20">비밀 구경하러 가기</button>
+        <Link className="text-gray mt-10 mb-20" href="/list">
+          비밀 구경하러 가기
+        </Link>
       </div>
     </>
   );

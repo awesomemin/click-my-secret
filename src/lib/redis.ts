@@ -29,6 +29,8 @@ if (!global.redisClient) {
   redisClient = global.redisClient;
 }
 
+export default redisClient;
+
 export async function loadDataToRedis() {
   try {
     const isInitialized = await redisClient.get('cache_initialized');
@@ -47,4 +49,43 @@ export async function loadDataToRedis() {
   }
 }
 
-export default redisClient;
+export async function syncRedis() {
+  let cursor = 0;
+  do {
+    const clicks = [];
+    const result = await redisClient.scan(cursor, {
+      MATCH: '*',
+      COUNT: 100,
+    });
+
+    cursor = +result.cursor;
+
+    for (const key of result.keys) {
+      const value = await redisClient.get(key);
+      const [, userId, secretId] = key.split(':');
+      if (value) {
+        clicks.push({ userId, secretId, clickCount: +value });
+      }
+    }
+
+    const upsertOperations = clicks.map((data) =>
+      prisma.click.upsert({
+        where: {
+          secretId_userId: {
+            secretId: data.secretId,
+            userId: +data.userId,
+          },
+        },
+        update: {
+          clickCount: data.clickCount,
+        },
+        create: {
+          secretId: data.secretId,
+          userId: +data.userId,
+          clickCount: data.clickCount,
+        },
+      })
+    );
+    await prisma.$transaction(upsertOperations);
+  } while (cursor !== 0);
+}

@@ -2,7 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { CustomJwtPayLoad, verifyJWTToken } from './lib/auth';
 import { hashSecretId } from './lib/secret';
 
+let lastRedisSync = new Date();
+
 export async function middleware(request: NextRequest) {
+  if (Date.now() - lastRedisSync.getTime() >= 60 * 60 * 1000) {
+    fetch(new URL('/api/redisSync', request.url));
+    lastRedisSync = new Date();
+  }
   const token = request.cookies.get('jwtToken');
   let userInfo: CustomJwtPayLoad | undefined;
   if (token) {

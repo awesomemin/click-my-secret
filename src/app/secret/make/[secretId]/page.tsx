@@ -75,7 +75,7 @@ export default async function SecretComplete({
           href={`/secret/${secretId}`}
           className="flex items-center justify-center w-full h-16 bg-primary rounded-2xl text-lg font-semibold mt-6 mb-[60px]"
         >
-          완료
+          내 비밀 페이지로 이동하기
         </Link>
       </div>
     </>

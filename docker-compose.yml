@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   clickmysecret:
-    image: clickmysecret:1.14
+    image: clickmysecret:1.15
     build:
       context: .
       dockerfile: ./Dockerfile

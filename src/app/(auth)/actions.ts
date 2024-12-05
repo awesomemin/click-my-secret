@@ -48,11 +48,20 @@ export async function signUp(
     if (!newUser) {
       throw new Error('회원가입 중 문제가 발생했습니다.');
     }
-  } catch (error: any) {
-    if (error.code === 'P2002' && error.message.includes('nickname')) {
-      actionResult.nicknameErrMsg = '이미 존재하는 닉네임입니다.';
-    } else if (error.code === 'P2002' && error.message.includes('loginId')) {
-      actionResult.idErrMsg = '중복된 ID입니다.';
+  } catch (error: unknown) {
+    if (
+      error instanceof Error &&
+      'code' in error &&
+      'message' in error &&
+      typeof error.message === 'string'
+    ) {
+      if (error.code === 'P2002' && error.message.includes('nickname')) {
+        actionResult.nicknameErrMsg = '이미 존재하는 닉네임입니다.';
+      } else if (error.code === 'P2002' && error.message.includes('loginId')) {
+        actionResult.idErrMsg = '중복된 ID입니다.';
+      }
+    } else {
+      throw new Error();
     }
   }
   if (Object.keys(actionResult).length !== 0) return actionResult;

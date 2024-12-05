@@ -105,14 +105,14 @@ export async function POST(request: NextRequest) {
   } catch {
     //부적절한 토큰일 때
     return NextResponse.redirect(
-      `${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}/login`
+      `${process.env.PROTOCOL}://${process.env.HOST}/login`
     );
   }
 
   //로그인 안되어 있을 때
   if (userInfo === undefined) {
     return NextResponse.redirect(
-      `${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}/login`
+      `${process.env.PROTOCOL}://${process.env.HOST}/login`
     );
   }
 

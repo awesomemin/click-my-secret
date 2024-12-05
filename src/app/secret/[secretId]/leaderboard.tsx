@@ -13,7 +13,7 @@ export default function Leaderboard({
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState<
-    { nickname: string; clickCount: number }[]
+    { nickname: string; clickCount: number; isMe: boolean }[]
   >([]);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function Leaderboard({
   async function fetchLeaderboardData() {
     const response = await fetch(`/api/click?secretId=${secretId}`);
     const data: {
-      leaderboard: { nickname: string; clickCount: number }[];
+      leaderboard: { nickname: string; clickCount: number; isMe: boolean }[];
     } = await response.json();
     if (!response.ok) {
       console.error('어떡하지...');
@@ -59,6 +59,7 @@ export default function Leaderboard({
             nickname={user.nickname}
             rank={i + 1}
             point={user.clickCount}
+            isMe={user.isMe}
           />
         ))}
       </div>
@@ -69,13 +70,19 @@ export default function Leaderboard({
     rank,
     nickname,
     point,
+    isMe,
   }: {
     rank: number;
     nickname: string;
     point: number;
+    isMe: boolean;
   }) {
     return (
-      <div className="flex items-center bg-black bg-opacity-75 h-12 min-h-12 rounded-xl px-4 text-sm">
+      <div
+        className={`flex items-center h-12 min-h-12 rounded-xl px-4 text-sm ${
+          isMe ? 'bg-[#F9F871] text-black' : 'bg-black bg-opacity-75'
+        }`}
+      >
         <div className="bold">{rank}</div>
         <div className="bold ml-4">{nickname}</div>
         {rank <= revealCount && (

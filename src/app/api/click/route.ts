@@ -41,6 +41,17 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  const token = request.cookies.get('jwtToken');
+  let userInfo;
+  if (token && token!.value !== 'undefined') {
+    try {
+      userInfo = await verifyJWTToken(token.value);
+    } catch {
+      return NextResponse.json({
+        redirectUrl: '/login',
+      });
+    }
+  }
   const secretId = request.nextUrl.searchParams.get('secretId');
   if (!secretId) {
     return NextResponse.json(
@@ -72,6 +83,7 @@ export async function GET(request: NextRequest) {
       results.push({
         nickname: user?.nickname || null,
         clickCount: clickCount && +clickCount,
+        isMe: userInfo ? userInfo.nickname === user?.nickname : false,
       });
     }
   } while (cursor !== 0);

@@ -2,6 +2,7 @@ import { Gamja_Flower } from 'next/font/google';
 import { headers, cookies } from 'next/headers';
 import Link from 'next/link';
 import LinkButton from './button';
+import KakaoAdfit from '@/components/kakaoAdfit';
 
 const gamja = Gamja_Flower({
   subsets: ['latin'],
@@ -78,6 +79,7 @@ export default async function SecretComplete({
           내 비밀 페이지로 이동하기
         </Link>
       </div>
+      <KakaoAdfit />
     </>
   );
 }

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Lock from '../../public/lock.png';
 import Link from 'next/link';
+import KakaoAdfit from '@/components/kakaoAdfit';
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
           비밀 구경하러 가기
         </Link>
       </div>
+      <KakaoAdfit />
     </>
   );
 }

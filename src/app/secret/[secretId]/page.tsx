@@ -6,6 +6,7 @@ import { makeRandomSecretString } from '@/lib/secret';
 import Key from './key';
 import Link from 'next/link';
 import { MdHome } from 'react-icons/md';
+import KakaoAdfit from '@/components/kakaoAdfit';
 
 const gamja = Gamja_Flower({
   subsets: ['latin'],
@@ -80,6 +81,7 @@ export default async function SecretPage({
         </p>
         <Key secretId={secretId} />
       </div>
+      <KakaoAdfit />
       <Leaderboard secretId={secretId} revealCount={revealCount} />
     </div>
   );

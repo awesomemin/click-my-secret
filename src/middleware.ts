@@ -6,7 +6,7 @@ let lastRedisSync = new Date();
 
 export async function middleware(request: NextRequest) {
   if (Date.now() - lastRedisSync.getTime() >= 60 * 60 * 1000) {
-    fetch(new URL('/api/redisSync', request.url));
+    fetch(`http://127.0.0.1:${process.env.PORT}/api/redisSync`);
     lastRedisSync = new Date();
   }
   const token = request.cookies.get('jwtToken');
@@ -18,14 +18,16 @@ export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname === '/secret/make') {
     if (userInfo === undefined)
       //로그인 안되어있을 때
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(
+        `http://127.0.0.1:${process.env.PORT}/login`
+      );
 
     const response = await fetch(
-      new URL(`/api/userhassecret?userId=${userInfo.userId}`, request.url)
+      `http://127.0.0.1:${process.env.PORT}/api/userhassecret?userId=${userInfo.userId}`
     );
 
     if (!response.ok) {
-      return NextResponse.redirect(new URL('/', request.url));
+      return NextResponse.redirect(`http://127.0.0.1:${process.env.PORT}/`);
     }
 
     const { hasSecret } = await response.json();
@@ -33,7 +35,9 @@ export async function middleware(request: NextRequest) {
     if (hasSecret) {
       // 비밀이 이미 있을 때
       return NextResponse.redirect(
-        new URL(`/secret/${await hashSecretId(userInfo.loginId)}`, request.url)
+        `http://127.0.0.1:${process.env.PORT}/secret/${await hashSecretId(
+          userInfo.loginId
+        )}`
       ); //본인의 비밀 페이지로 이동시켜야 함 (추후 구현)
     }
 

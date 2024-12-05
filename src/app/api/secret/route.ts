@@ -104,12 +104,12 @@ export async function POST(request: NextRequest) {
     }
   } catch {
     //부적절한 토큰일 때
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(`http://127.0.0.1:${process.env.PORT}/login`);
   }
 
   //로그인 안되어 있을 때
   if (userInfo === undefined) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(`http://127.0.0.1:${process.env.PORT}/login`);
   }
 
   //body 데이터에 문제가 있을 때
@@ -149,6 +149,6 @@ export async function POST(request: NextRequest) {
     );
   }
   return NextResponse.json({
-    redirectUrl: new URL(`/secret/make/${newSecretId}`, request.url),
+    redirectUrl: `/secret/make/${newSecretId}`,
   });
 }

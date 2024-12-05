@@ -19,13 +19,13 @@ export default function Home() {
         <div className="flex-grow"></div>
         <Link
           href="/secret/make"
-          className="w-full h-16 bg-primary rounded-2xl text-lg font-semibold flex items-center justify-center"
+          className="w-full h-16 bg-primary rounded-2xl text-lg font-semibold flex items-center justify-center mb-32"
         >
           비밀 만들러 가기
         </Link>
-        <Link className="text-gray mt-10 mb-20" href="/list">
+        {/* <Link className="text-gray mt-10 mb-20" href="/list">
           비밀 구경하러 가기
-        </Link>
+        </Link> */}
       </div>
       <KakaoAdfit />
     </>

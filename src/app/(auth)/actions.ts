@@ -4,17 +4,7 @@ import { cookies } from 'next/headers';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../../lib/prisma';
 import { loginResult, signUpResult } from './types';
-import { redirect } from 'next/navigation';
 import { generateJWTToken } from '../../lib/auth';
-
-class SignUpError extends Error {
-  public code: string;
-
-  constructor(code: string, message: string) {
-    super(message);
-    this.code = code;
-  }
-}
 
 export async function signUp(
   currentState: object,
@@ -46,6 +36,7 @@ export async function signUp(
 
   const hashedPw = await hashPassword(pw!);
   try {
+    console.log('유저 만들기 시도!!!');
     const newUser = await prisma.user.create({
       data: {
         loginId: id!,
@@ -53,18 +44,15 @@ export async function signUp(
         nickname: nickname!,
       },
     });
+    console.log('유저 만들기 성공!@@@@@@');
     if (!newUser) {
       throw new Error('회원가입 중 문제가 발생했습니다.');
     }
-  } catch (error: unknown) {
-    if (error instanceof SignUpError) {
-      if (error.code === 'P2002' && error.message.includes('nickname')) {
-        actionResult.nicknameErrMsg = '이미 존재하는 닉네임입니다.';
-      } else if (error.code === 'P2002' && error.message.includes('loginId')) {
-        actionResult.idErrMsg = '중복된 ID입니다.';
-      } else {
-        throw new Error(error.message);
-      }
+  } catch (error: any) {
+    if (error.code === 'P2002' && error.message.includes('nickname')) {
+      actionResult.nicknameErrMsg = '이미 존재하는 닉네임입니다.';
+    } else if (error.code === 'P2002' && error.message.includes('loginId')) {
+      actionResult.idErrMsg = '중복된 ID입니다.';
     }
   }
   if (Object.keys(actionResult).length !== 0) return actionResult;
@@ -120,7 +108,6 @@ export async function login(
     sameSite: true,
   });
   actionResult.message = '성공적으로 로그인하였습니다.';
-  redirect('/');
   return actionResult;
 }
 

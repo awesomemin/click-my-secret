@@ -4,13 +4,22 @@ import { MdPerson, MdLock } from 'react-icons/md';
 import Link from 'next/link';
 import Form from 'next/form';
 import { login } from '../actions';
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 import Spinner from '@/components/spinner';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
+  const router = useRouter();
   const [loginResult, formAction, isPending] = useActionState(login, {
-    success: true,
+    success: false,
   });
+  useEffect(() => {
+    if (loginResult.success) {
+      const callbackUrl = window.localStorage.getItem('callbackUrl') || '/';
+      window.localStorage.removeItem('callbackUrl');
+      router.push(callbackUrl);
+    }
+  }, [loginResult]);
   return (
     <>
       <div className="flex flex-col h-screen">

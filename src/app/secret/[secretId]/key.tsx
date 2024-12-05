@@ -2,10 +2,11 @@
 
 import KeyImage from '@/../public/key.png';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function Key({ secretId }: { secretId: string }) {
   const router = useRouter();
+  const pathname = usePathname();
 
   async function handleKeyClick() {
     const response = await fetch(`/api/click?secretId=${secretId}`, {
@@ -16,6 +17,7 @@ export default function Key({ secretId }: { secretId: string }) {
       alert(data.error);
     }
     if (data?.redirectUrl) {
+      window.localStorage.setItem('callbackUrl', pathname);
       router.push(data.redirectUrl);
     }
   }

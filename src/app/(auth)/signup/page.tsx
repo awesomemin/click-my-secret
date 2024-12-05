@@ -4,14 +4,24 @@ import { MdPerson, MdLock, MdTagFaces } from 'react-icons/md';
 import Link from 'next/link';
 import Form from 'next/form';
 import { signUp } from '../actions';
-import { useActionState, useState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import Spinner from '@/components/spinner';
+import { useRouter } from 'next/navigation';
 
 export default function SignUp() {
+  const router = useRouter();
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
   const [nickname, setNickname] = useState('');
   const [actionResult, formAction, isPending] = useActionState(signUp, {});
+
+  useEffect(() => {
+    if ('success' in actionResult && actionResult.success) {
+      const callbackUrl = window.localStorage.getItem('callbackUrl') || '/';
+      window.localStorage.removeItem('callbackUrl');
+      router.push(callbackUrl);
+    }
+  }, [actionResult]);
 
   return (
     <>

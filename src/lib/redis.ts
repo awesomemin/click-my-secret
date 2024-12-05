@@ -8,6 +8,8 @@ declare global {
 
 const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
 
+const dbIndex = process.env.NODE_ENV === 'production' ? 1 : 0;
+
 let redisClient: RedisClientType;
 
 if (!global.redisClient) {
@@ -19,9 +21,14 @@ if (!global.redisClient) {
   });
 
   // 연결 시작
-  redisClient.connect().catch((err) => {
-    console.error('Failed to connect to Redis:', err);
-  });
+  redisClient
+    .connect()
+    .then(() => {
+      return redisClient.select(dbIndex);
+    })
+    .catch((err) => {
+      console.error('Failed to connect to Redis:', err);
+    });
 
   // 전역 객체에 저장
   global.redisClient = redisClient;

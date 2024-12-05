@@ -75,7 +75,7 @@ export default async function SecretPage({
         </p>
         <Key secretId={secretId} />
       </div>
-      <Leaderboard />
+      <Leaderboard secretId={secretId} revealCount={revealCount} />
     </div>
   );
 }

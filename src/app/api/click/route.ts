@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import redis, { loadDataToRedis } from '@/lib/redis';
+import redis from '@/lib/redis';
 import { verifyJWTToken } from '@/lib/auth';
 import { hashSecretId } from '@/lib/secret';
 
@@ -31,9 +31,4 @@ export async function POST(request: NextRequest) {
   const key = `user:${userInfo.userId}:${secretId}:clicks`;
   await redis.incr(key);
   return NextResponse.json({ message: '클 릭' });
-}
-
-export async function GET(request: NextRequest) {
-  loadDataToRedis();
-  return NextResponse.json({ clicks: 0 });
 }

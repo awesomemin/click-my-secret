@@ -2,10 +2,12 @@ import Image from 'next/image';
 import Lock from '../../public/lock.png';
 import Link from 'next/link';
 import KakaoAdfit from '@/components/kakaoAdfit';
+import SideMenu from '@/components/sideMenu';
 
 export default function Home() {
   return (
     <>
+      <SideMenu />
       <div className="flex flex-col items-center h-screen">
         <Image src={Lock} alt="lock image" className="mt-48" />
         <p className="font-semibold text-xl mt-2  ">이번 크리스마스,</p>

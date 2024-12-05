@@ -40,7 +40,7 @@ export async function middleware(request: NextRequest) {
         `${process.env.PROTOCOL}://${
           process.env.HOST
         }/secret/${await hashSecretId(userInfo.loginId)}`
-      ); //본인의 비밀 페이지로 이동시켜야 함 (추후 구현)
+      );
     }
 
     // 비밀이 없을 때는 정상 진행

@@ -19,7 +19,7 @@ export default function Home() {
         <div className="flex-grow"></div>
         <Link
           href="/secret/make"
-          className="w-full h-16 bg-primary rounded-2xl text-lg font-semibold flex items-center justify-center mb-32"
+          className="w-full h-16 bg-primary rounded-2xl text-lg font-semibold flex items-center justify-center mb-40"
         >
           비밀 만들러 가기
         </Link>
@@ -27,7 +27,9 @@ export default function Home() {
           비밀 구경하러 가기
         </Link> */}
       </div>
-      <KakaoAdfit />
+      <div className="fixed bottom-0">
+        <KakaoAdfit />
+      </div>
     </>
   );
 }

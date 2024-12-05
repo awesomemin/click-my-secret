@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
     if (userInfo === undefined)
       //로그인 안되어있을 때
       return NextResponse.redirect(
-        `http://${process.env.HOST}:${process.env.PORT}/login`
+        `${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}/login`
       );
 
     const response = await fetch(
@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
 
     if (!response.ok) {
       return NextResponse.redirect(
-        `http://${process.env.HOST}:${process.env.PORT}/`
+        `${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}/`
       );
     }
 
@@ -37,7 +37,7 @@ export async function middleware(request: NextRequest) {
     if (hasSecret) {
       // 비밀이 이미 있을 때
       return NextResponse.redirect(
-        `http://${process.env.HOST}:${
+        `${process.env.PROTOCOL}://${process.env.HOST}:${
           process.env.PORT
         }/secret/${await hashSecretId(userInfo.loginId)}`
       ); //본인의 비밀 페이지로 이동시켜야 함 (추후 구현)

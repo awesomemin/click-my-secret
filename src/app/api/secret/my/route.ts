@@ -1,4 +1,5 @@
 import { verifyJWTToken } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 import { hashSecretId } from '@/lib/secret';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -20,7 +21,29 @@ export async function GET(request: NextRequest) {
       { status: 401 }
     );
   }
-  const secretId = await hashSecretId(userInfo.loginId);
+  let userWithSecret;
+  try {
+    userWithSecret = await prisma.user.findUnique({
+      where: { id: userInfo.userId },
+      include: { secret: true },
+    });
+  } catch {
+    return NextResponse.json(
+      {
+        error: 'DB에서 정보를 가져오는 중 문제가 발생했습니다.',
+      },
+      { status: 500 }
+    );
+  }
+  const secretId = userWithSecret?.secret?.id;
+  if (!secretId) {
+    return NextResponse.json(
+      {
+        error: '비밀을 가지고 있지 않은 유저입니다.',
+      },
+      { status: 404 }
+    );
+  }
   return NextResponse.json({
     secretId,
   });

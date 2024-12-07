@@ -5,7 +5,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const token = request.cookies.get('jwtToken');
-  console.log(token);
   if (!token) {
     return NextResponse.json(
       { error: '로그인 되지 않은 상태입니다.' },

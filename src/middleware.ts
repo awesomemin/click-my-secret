@@ -5,7 +5,7 @@ import { hashSecretId } from './lib/secret';
 let lastRedisSync = new Date();
 
 export async function middleware(request: NextRequest) {
-  if (Date.now() - lastRedisSync.getTime() >= 60 * 60 * 1000) {
+  if (Date.now() - lastRedisSync.getTime() >= 10 * 60 * 1000) {
     fetch(`http://127.0.0.1:${process.env.PORT}/api/redisSync`);
     lastRedisSync = new Date();
   }

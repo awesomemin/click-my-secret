@@ -1,6 +1,6 @@
 'use client';
 
-import { MdPerson, MdLock } from 'react-icons/md';
+import { MdPerson, MdLock, MdHome } from 'react-icons/md';
 import Link from 'next/link';
 import Form from 'next/form';
 import { login } from '../actions';
@@ -22,6 +22,12 @@ export default function Login() {
   }, [loginResult]);
   return (
     <>
+      <MdHome
+        className="absolute top-3 left-3 w-6 h-6"
+        onClick={() => {
+          router.push('/');
+        }}
+      />
       <div className="flex flex-col h-screen">
         <h1 className="mt-[60px] text-2xl font-semibold text-center">로그인</h1>
         <Form action={formAction} className="mt-[55px]">

@@ -1,6 +1,6 @@
 'use client';
 
-import { MdPerson, MdLock, MdTagFaces } from 'react-icons/md';
+import { MdPerson, MdLock, MdTagFaces, MdHome } from 'react-icons/md';
 import Link from 'next/link';
 import Form from 'next/form';
 import { signUp } from '../actions';
@@ -25,6 +25,12 @@ export default function SignUp() {
 
   return (
     <>
+      <MdHome
+        className="absolute top-3 left-3 w-6 h-6"
+        onClick={() => {
+          router.push('/');
+        }}
+      />
       <div className="flex flex-col h-screen">
         <h1 className="mt-[60px] text-2xl font-semibold">
           ID와 비밀번호 입력만으로

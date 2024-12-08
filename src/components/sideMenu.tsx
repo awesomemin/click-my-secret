@@ -2,7 +2,14 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { MdMenu } from 'react-icons/md';
+import {
+  MdMenu,
+  MdLogin,
+  MdLogout,
+  MdLock,
+  MdKey,
+  MdHelpOutline,
+} from 'react-icons/md';
 
 export default function SideMenu() {
   const router = useRouter();
@@ -42,6 +49,7 @@ export default function SideMenu() {
         {isLoggedIn ? (
           <>
             <div
+              className="flex gap-1 items-center"
               onClick={async () => {
                 const response = await fetch('/api/auth/logout', {
                   method: 'POST',
@@ -51,9 +59,11 @@ export default function SideMenu() {
                 }
               }}
             >
+              <MdLogout />
               로그아웃
             </div>
             <div
+              className="flex gap-1 items-center"
               onClick={async () => {
                 const response = await fetch('api/secret/my');
                 const data = await response.json();
@@ -65,23 +75,27 @@ export default function SideMenu() {
                 }
               }}
             >
-              내 비밀 보러 가기
+              <MdLock />내 비밀 보러 가기
             </div>
             <div
+              className="flex gap-1 items-center"
               onClick={() => {
                 router.push(`/click/my`);
               }}
             >
+              <MdKey />
               내가 클릭한 비밀 모아보기
             </div>
           </>
         ) : (
           <>
             <div
+              className="flex gap-1 items-center"
               onClick={() => {
                 router.push('/login');
               }}
             >
+              <MdLogin />
               로그인
             </div>
             <div
@@ -93,6 +107,15 @@ export default function SideMenu() {
             </div>
           </>
         )}
+        <div
+          className="flex gap-1 items-center"
+          onClick={() => {
+            router.push('https://open.kakao.com/o/sDBuf63g');
+          }}
+        >
+          <MdHelpOutline />
+          고객센터
+        </div>
       </div>
     </>
   );

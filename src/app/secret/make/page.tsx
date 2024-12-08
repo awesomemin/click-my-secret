@@ -4,7 +4,7 @@ import Image from 'next/image';
 import envelope from '@/../public/envelope.png';
 import { Gamja_Flower } from 'next/font/google';
 import { useState } from 'react';
-import { MdArrowBack, MdLightbulb, MdGroups } from 'react-icons/md';
+import { MdArrowBack, MdLightbulb, MdGroups, MdHome } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 
 const gamja = Gamja_Flower({
@@ -63,6 +63,12 @@ export default function SecretMake() {
         </h1>
         {step === 1 ? (
           <>
+            <MdHome
+              className="absolute top-3 left-3 w-6 h-6"
+              onClick={() => {
+                router.push('/');
+              }}
+            />
             <Image
               src={envelope}
               alt="image of envelope"

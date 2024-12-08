@@ -3,6 +3,7 @@
 import Key from '@/../public/key.png';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { IoIosArrowDropup } from 'react-icons/io';
 
 export default function Leaderboard({
   secretId,
@@ -39,20 +40,26 @@ export default function Leaderboard({
   function LeaderboardHeader() {
     return (
       <div
-        className="w-screen h-12 rounded-t-xl relative pt-[6px] bg-primary"
+        className="flex gap-2 justify-center items-center w-screen min-h-12 rounded-t-xl relative pt-[6px] bg-primary"
         onClick={() => {
           setIsExpanded((p) => !p);
         }}
       >
-        <div className="h-[6px] w-16 bg-black opacity-50 mx-auto rounded-full" />
-        <p className="text-center font-semibold text-sm mt-[6px]">순위표</p>
+        <p className="text-center font-semibold text-sm">순위표</p>
+        <div
+          className={`w-6 h-6 transform transition-all duration-500 ${
+            isExpanded ? 'rotate-180' : 'rotate-0'
+          }`}
+        >
+          <IoIosArrowDropup className="w-full h-full" />
+        </div>
       </div>
     );
   }
 
   function LeaderboardContent() {
     return (
-      <div className="flex flex-col gap-2 mx-4 mt-3 pb-3 overflow-scroll scrollbar-hide">
+      <div className="flex flex-col flex-grow gap-2 mx-4 mt-3 pb-3 overflow-scroll scrollbar-hide">
         {leaderboardData.map((user, i) => (
           <LeaderboardItem
             key={user.nickname}
@@ -95,7 +102,7 @@ export default function Leaderboard({
 
   return (
     <div
-      className={`flex flex-col sticky bottom-0 z-10 rounded-t-xl -ml-10 w-screen bg-primary transition-all duration-200 flex-grow ${
+      className={`flex flex-col sticky bottom-0 z-10 rounded-t-xl -ml-10 -mt-3 w-screen bg-primary transition-all duration-500 flex-grow ${
         isExpanded ? 'h-[60vh]' : 'h-20'
       }`}
     >

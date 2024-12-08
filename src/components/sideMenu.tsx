@@ -9,6 +9,7 @@ import {
   MdLock,
   MdKey,
   MdHelpOutline,
+  MdAccountCircle,
 } from 'react-icons/md';
 
 export default function SideMenu() {
@@ -99,10 +100,12 @@ export default function SideMenu() {
               로그인
             </div>
             <div
+              className="flex gap-1 items-center"
               onClick={() => {
                 router.push('/signup');
               }}
             >
+              <MdAccountCircle />
               회원가입
             </div>
           </>

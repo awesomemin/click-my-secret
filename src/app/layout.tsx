@@ -30,7 +30,7 @@ export default function RootLayout({
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-ML18XVWMN3"
         ></Script>
-        <Script>
+        <Script id="gtm">
           {`
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}

@@ -20,12 +20,12 @@ export async function POST(request: NextRequest) {
       userInfo = await verifyJWTToken(token.value);
     } catch {
       return NextResponse.json({
-        redirectUrl: '/login',
+        redirectUrl: '/signup',
       });
     }
   } else {
     return NextResponse.json({
-      redirectUrl: '/login',
+      redirectUrl: '/signup',
     });
   }
 
@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
       userInfo = await verifyJWTToken(token.value);
     } catch {
       return NextResponse.json({
-        redirectUrl: '/login',
+        redirectUrl: '/signup',
       });
     }
   }

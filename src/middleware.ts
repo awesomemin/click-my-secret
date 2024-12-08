@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
     if (userInfo === undefined)
       //로그인 안되어있을 때
       return NextResponse.redirect(
-        `${process.env.PROTOCOL}://${process.env.HOST}/login`
+        `${process.env.PROTOCOL}://${process.env.HOST}/signup`
       );
 
     const response = await fetch(

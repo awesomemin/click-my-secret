@@ -40,18 +40,34 @@ export default function SideMenu() {
         } fixed flex flex-col pl-6 pt-6 gap-4 right-0 z-30 h-screen w-60 bg-background transition-transform duration-300 ease-in-out`}
       >
         {isLoggedIn ? (
-          <div
-            onClick={async () => {
-              const response = await fetch('/api/auth/logout', {
-                method: 'POST',
-              });
-              if (response.ok) {
-                setIsLoggedIn(false);
-              }
-            }}
-          >
-            로그아웃
-          </div>
+          <>
+            <div
+              onClick={async () => {
+                const response = await fetch('/api/auth/logout', {
+                  method: 'POST',
+                });
+                if (response.ok) {
+                  setIsLoggedIn(false);
+                }
+              }}
+            >
+              로그아웃
+            </div>
+            <div
+              onClick={async () => {
+                const response = await fetch('api/secret/my');
+                const data = await response.json();
+                if (response.ok) {
+                  const secretId = data.secretId;
+                  router.push(`/secret/${secretId}`);
+                } else if (response.status === 404) {
+                  router.push(`/secret/make`);
+                }
+              }}
+            >
+              내 비밀 보러 가기
+            </div>
+          </>
         ) : (
           <>
             <div

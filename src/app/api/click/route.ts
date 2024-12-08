@@ -5,6 +5,14 @@ import { hashSecretId } from '@/lib/secret';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
+  if (1735045200000 < new Date().getTime()) {
+    return NextResponse.json(
+      {
+        error: '클릭 가능 시간이 아닙니다. 곧 비밀이 공개됩니다.',
+      },
+      { status: 400 }
+    );
+  }
   const token = request.cookies.get('jwtToken');
   const secretId = request.nextUrl.searchParams.get('secretId');
   if (!secretId) {

@@ -1,6 +1,5 @@
 import { verifyJWTToken } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { hashSecretId } from '@/lib/secret';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {

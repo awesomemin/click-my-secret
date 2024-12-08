@@ -32,7 +32,10 @@ export async function GET(request: NextRequest) {
 
     for (const key of result.keys) {
       const secretId = key.split(':')[2];
-      const clickCount = await redis.get(key);
+      let clickCount = await redis.get(key);
+      if (!clickCount) {
+        clickCount = '0';
+      }
       const secretInfo = await prisma.secret.findUnique({
         where: {
           id: secretId,
@@ -48,7 +51,7 @@ export async function GET(request: NextRequest) {
       results.push({
         ownerNickname: secretInfo?.owner.nickname,
         hint: secretInfo?.hint,
-        clickCount: clickCount,
+        clickCount: +clickCount,
         secretId: secretInfo?.id,
         revealCount: secretInfo?.revealCount,
       });

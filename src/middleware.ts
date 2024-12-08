@@ -15,6 +15,14 @@ export async function middleware(request: NextRequest) {
     userInfo = await verifyJWTToken(token.value);
   }
 
+  if (request.nextUrl.pathname === '/click/my') {
+    if (userInfo === undefined) {
+      return NextResponse.redirect(
+        `${process.env.PROTOCOL}://${process.env.HOST}/login`
+      );
+    }
+  }
+
   if (request.nextUrl.pathname === '/secret/make') {
     if (userInfo === undefined)
       //로그인 안되어있을 때

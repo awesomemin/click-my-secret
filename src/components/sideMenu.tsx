@@ -67,6 +67,13 @@ export default function SideMenu() {
             >
               내 비밀 보러 가기
             </div>
+            <div
+              onClick={() => {
+                router.push(`/click/my`);
+              }}
+            >
+              내가 클릭한 비밀 모아보기
+            </div>
           </>
         ) : (
           <>

@@ -5,6 +5,7 @@ import { hashSecretId } from '@/lib/secret';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
+  console.log(new Date().getTime());
   if (1735045200000 < new Date().getTime()) {
     return NextResponse.json(
       {

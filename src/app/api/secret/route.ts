@@ -55,6 +55,47 @@ export async function GET(request: NextRequest) {
         { status: 500 }
       );
     }
+  } else if (1735045200000 < new Date().getTime() && userInfo) {
+    // 비밀 공개 시간이 되었고, 로그인이 되어있다면
+    let didWinSecret = false;
+    const leaderboardResponse = await fetch(
+      `${process.env.PROTOCOL}://${process.env.HOST}/api/click?secretId=${secretId}`
+    );
+    const leaderboardData: {
+      leaderboard: { nickname: string; clickCount: number; isMe: boolean }[];
+    } = await leaderboardResponse.json();
+    if (!leaderboardResponse.ok) {
+      console.error('어떡하지...');
+    }
+    leaderboardData.leaderboard.sort((a, b) => b.clickCount - a.clickCount);
+    const secretInfo = await prisma.secret.findUnique({
+      where: {
+        id: secretId,
+      },
+      select: {
+        hint: true,
+        content: true,
+        revealCount: true,
+        owner: {
+          select: {
+            nickname: true,
+          },
+        },
+      },
+    });
+    for (let i = 0; i < secretInfo?.revealCount!; i++) {
+      if (leaderboardData.leaderboard[i].nickname === userInfo.nickname) {
+        didWinSecret = true;
+      }
+    }
+    if (didWinSecret) {
+      return NextResponse.json({
+        hint: secretInfo?.hint,
+        content: secretInfo?.content,
+        revealCount: secretInfo?.revealCount,
+        ownerNickname: secretInfo?.owner.nickname,
+      });
+    }
   }
 
   //로그인 하지 않았거나, 타인의 비밀에 대한 요청일 때

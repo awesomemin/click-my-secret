@@ -83,7 +83,10 @@ export async function GET(request: NextRequest) {
         },
       },
     });
-    for (let i = 0; i < secretInfo?.revealCount!; i++) {
+    if (!secretInfo) {
+      throw new Error('비밀 정보를 불러오는 중 문제가 발생했습니다.');
+    }
+    for (let i = 0; i < secretInfo.revealCount!; i++) {
       if (leaderboardData.leaderboard[i].nickname === userInfo.nickname) {
         didWinSecret = true;
       }
